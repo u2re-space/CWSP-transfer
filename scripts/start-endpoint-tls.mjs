@@ -159,12 +159,65 @@ function runForeground() {
     child.on("exit", (code) => process.exit(code ?? 1));
 }
 
+const HOME = process.env.HOME || process.env.USERPROFILE || "";
+const USER = process.env.USER || process.env.LOGNAME || "u2re-dev";
+const UNIT_NAME = "cwsp-gateway.service";
+
+function writeUserSystemdUnit() {
+    if (!HOME) throw new Error("HOME is unset");
+    const unitDir = path.join(HOME, ".config/systemd/user");
+    fs.mkdirSync(unitDir, { recursive: true });
+    const unitPath = path.join(unitDir, UNIT_NAME);
+    const nodeBin = process.execPath;
+    const script = path.join(__dirname, "start-endpoint-tls.mjs");
+    const unit = `[Unit]
+Description=CWSP L-200 gateway (PM2 ${PM2_NAME} TLS :8434)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+WorkingDirectory=${APP_ROOT}
+ExecStart=${nodeBin} ${script}
+TimeoutStartSec=120
+
+[Install]
+WantedBy=default.target
+`;
+    fs.writeFileSync(unitPath, unit);
+    return unitPath;
+}
+
+function enableOsBoot() {
+    const save = spawnSync("pm2", ["save"], { stdio: "inherit" });
+    if (save.status !== 0) {
+        console.warn("[start-endpoint-tls] pm2 save failed — dump not updated");
+    }
+    const unitPath = writeUserSystemdUnit();
+    spawnSync("systemctl", ["--user", "daemon-reload"], { stdio: "inherit" });
+    const enable = spawnSync("systemctl", ["--user", "enable", UNIT_NAME], { stdio: "inherit" });
+    if (enable.status !== 0) {
+        console.warn(`[start-endpoint-tls] systemctl --user enable failed (${unitPath})`);
+    } else {
+        console.log(`[start-endpoint-tls] user unit enabled: ${unitPath}`);
+    }
+    const linger = spawnSync("loginctl", ["enable-linger", USER], { stdio: "inherit" });
+    if (linger.status !== 0) {
+        console.warn(`[start-endpoint-tls] linger off — OS boot without login needs:`);
+        console.warn(`  sudo loginctl enable-linger ${USER}`);
+    } else {
+        console.log(`[start-endpoint-tls] linger on for ${USER} (starts at OS boot)`);
+    }
+}
+
 async function main() {
     const args = process.argv.slice(2);
     if (args.includes("--help") || args.includes("-h")) {
         console.log(`start-endpoint-tls — boot runtime/cwsp/endpoint TLS :8434
 
   (default)     PM2 start/restart ${PM2_NAME} with HTTPS env
+  --boot        same + pm2 save + user systemd (L-200 OS boot)
   --foreground  run server-v2 in this terminal
   --status      probe https://127.0.0.1:8434/health only
 `);
@@ -195,6 +248,7 @@ async function main() {
         process.exit(1);
     }
     console.log(`[start-endpoint-tls] TLS OK https://127.0.0.1:8434/health → ${r.body}`);
+    if (args.includes("--boot")) enableOsBoot();
 }
 
 main().catch((e) => {

@@ -68,6 +68,7 @@
         "deploy:200:windows": "node scripts/deploy-runtime.mjs --target 200 --runtime neutralino --rebuild",
         "deploy:200:webnative": "node scripts/deploy-runtime.mjs --target 200 --runtime neutralino --rebuild",
         "start:endpoint:tls": "node scripts/start-endpoint-tls.mjs",
+        "start:endpoint:tls:boot": "node scripts/start-endpoint-tls.mjs --boot",
         "start:endpoint:tls:fg": "node scripts/start-endpoint-tls.mjs --foreground",
         "status:endpoint:tls": "node scripts/start-endpoint-tls.mjs --status",
         "check:ws-live": "node scripts/check-ws-live.mjs",
