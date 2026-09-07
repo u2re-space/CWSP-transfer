@@ -23,7 +23,7 @@ export type GptProviderConfig = {
     proxyPath?: string;
 };
 
-const DEFAULT_BASE_URL = "https://api.proxyapi.ru/openai/v1";
+const DEFAULT_BASE_URL = "https://api.proxyapi.ru/v1";
 const DEFAULT_PROXY_PATH = "/responses";
 const DEFAULT_MODEL = "gpt-5.6-luna";
 let dotenvLoaded = false;

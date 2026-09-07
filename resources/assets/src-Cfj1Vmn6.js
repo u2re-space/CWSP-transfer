@@ -1626,7 +1626,7 @@ import{n as e}from"./rolldown-runtime-C0FnF6B9.js";import{At as t,J as n,Mt as r
       <form class="settings-panel-form" novalidate onsubmit="return false">
       <label class="field">
         <span>Base URL</span>
-        <input placeholder="https://api.proxyapi.ru/openai/v1" class="form-input" type="url" inputmode="url" autocomplete="off" data-field="ai.baseUrl" />
+        <input placeholder="https://api.proxyapi.ru/v1" class="form-input" type="url" inputmode="url" autocomplete="off" data-field="ai.baseUrl" />
       </label>
       <label class="field">
         <span>API Key</span>
