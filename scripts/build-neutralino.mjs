@@ -1,7 +1,8 @@
 /*
  * Filename: build-neutralino.mjs
  * FullPath: apps/CWSP-reborn/scripts/build-neutralino.mjs
- * Change date and time: 16.40.00_21.07.2026
+ * FIND:neutralino-windows-exe
+ * Change date and time: 09.40.00_07.09.2026
  * Reason for changes: Portable .tar.gz = backend/ + extensions/ + loose resources/
  *   (toast). UI already in resources.neu; host drops unpacked resources/.
  *   2026-07-21: vendor `fflate` into the packaged backend — files-hub.ts
@@ -1583,18 +1584,48 @@ function binariesPresent() {
         .some((name) => name.startsWith("neutralino-"));
 }
 
+function hasWindowsFrameworkExe() {
+    return (
+        fs.existsSync(FRAMEWORK_BIN_DIR) &&
+        fs
+            .readdirSync(FRAMEWORK_BIN_DIR)
+            .some((name) => /^neutralino-win_x64\.exe$/i.test(name))
+    );
+}
+
+function needsWindowsPackage(args) {
+    return args.platform === "windows" || args.target === "110";
+}
+
 /**
  * Download Neutralino framework binaries when missing (`neu update`).
  * Client JS is handled separately via ensureClientLibrary().
+ *
+ * WHY: `*.exe` is gitignored, so `bin/neutralino-win_x64.exe` never survives clone.
+ * INVARIANT: any linux/mac `neutralino-*` in ./bin must not skip `neu update`
+ * when a Windows package is requested — otherwise `neu build` copies only
+ * host-OS binaries and deploy:110 ships a Linux tree with no `.exe`.
  */
 function ensureFrameworkBinaries(args) {
-    if (args.update) return; // already requested explicitly in main()
-    if (binariesPresent()) {
+    const wantWindows = needsWindowsPackage(args);
+    const haveAny = binariesPresent();
+    const haveWin = hasWindowsFrameworkExe();
+    if (args.update || (wantWindows && !haveWin) || !haveAny) {
+        console.log(
+            wantWindows && !haveWin
+                ? "[build:neutralino] Windows framework exe missing — running neu update"
+                : "[build:neutralino] framework binaries missing — running neu update"
+        );
+        runNeu(["update"]);
+    } else {
         console.log("[build:neutralino] framework binaries present in ./bin");
-        return;
     }
-    console.log("[build:neutralino] framework binaries missing — running neu update");
-    runNeu(["update"]);
+    if (wantWindows && !hasWindowsFrameworkExe()) {
+        throw new Error(
+            "Windows Neutralino binary still missing: bin/neutralino-win_x64.exe. " +
+                "Check network to GitHub releases, then: npx @neutralinojs/neu update"
+        );
+    }
 }
 
 function buildWeb(args) {
@@ -1632,6 +1663,17 @@ function buildNeutralino(args) {
         throw new Error(
             `Neutralino build completed, but output directory was not found: ${binDir}`
         );
+    }
+    if (needsWindowsPackage(args)) {
+        const exe = fs
+            .readdirSync(binDir)
+            .find((n) => /win_x64\.exe$/i.test(n) || (/neutralino/i.test(n) && /\.exe$/i.test(n)));
+        if (!exe) {
+            throw new Error(
+                `neu build produced no Windows .exe in ${binDir}. ` +
+                    "Expected cwsp-neutralino-win_x64.exe (from bin/neutralino-win_x64.exe)."
+            );
+        }
     }
 
     // Package Node backend next to exe inside neu output (before publish/stage copies).
@@ -1921,6 +1963,16 @@ function publishUnderBuildNeutralino(platform) {
         // leave an unpacked resources/ tree beside a slim package.
 
         writeStageHelpers(platDir, platform);
+        if (platform === "windows") {
+            const exe = fs
+                .readdirSync(platDir)
+                .find((n) => /\.exe$/i.test(n) && /neutralino|cwsp/i.test(n));
+            if (!exe) {
+                throw new Error(
+                    `[build:neutralino] windows package has no .exe: ${platDir}`
+                );
+            }
+        }
         console.log(`[build:neutralino] published ${platform} → ${platDir}`);
     }
 }

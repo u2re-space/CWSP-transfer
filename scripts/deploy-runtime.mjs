@@ -1,7 +1,8 @@
 /*
  * Filename: deploy-runtime.mjs
  * FullPath: apps/CWSP-reborn/scripts/deploy-runtime.mjs
- * Change date and time: 10.10.00_31.07.2026
+ * FIND:neutralino-windows-exe
+ * Change date and time: 09.40.00_07.09.2026
  * Reason for changes: Stage Neutralino archive-only packages (.tar.gz + .config); do not lstat missing backend/.
  *   2026-07-31: npm `deploy:110` now includes Neutralino --rebuild — node/java-only
  *   left a stale .exe + resources.neu on the desk (UI fixes never landed).
@@ -254,12 +255,18 @@ function isNeutralinoPackage(dir) {
  * Score portable Neutralino dirs so deploy prefers exe-named .tar.gz over
  * stale fallbacks like cwsp-neutralino-backend.tar.gz (publish bug).
  */
-function scoreNeutralinoPackage(dir) {
+function scoreNeutralinoPackage(dir, platform = null) {
     if (!isNeutralinoPackage(dir)) return -1;
     let score = 0;
     try {
         const entries = fs.readdirSync(dir);
         const exe = entries.find((n) => /\.exe$/i.test(n) && /neutralino/i.test(n));
+        // WHY: a complete Linux `app/` tree (linux bin + matching tar) used to
+        // score +100 and beat `build/neutralino/windows` that had no .exe.
+        if (platform === "windows" && !exe) return -1;
+        if (platform === "linux" && exe && !entries.some((n) => /linux_x64$/i.test(n))) {
+            return -1;
+        }
         const linuxBin = entries.find(
             (n) => /^cwsp-neutralino/i.test(n) && !/\./.test(n)
         );
@@ -307,7 +314,7 @@ function resolveNeutralinoPackageSource(platform) {
     let best = null;
     let bestScore = -1;
     for (const dir of candidates) {
-        const score = scoreNeutralinoPackage(dir);
+        const score = scoreNeutralinoPackage(dir, platform);
         if (score > bestScore) {
             bestScore = score;
             best = dir;
