@@ -1,1 +1,0 @@
-import{n as e}from"./rolldown-runtime-C0FnF6B9.js";import{n as t,t as n}from"./window-Cyvys_pB.js";function r(){return(r=e((()=>{t()})))()}r();export{n as createShell,n as default};

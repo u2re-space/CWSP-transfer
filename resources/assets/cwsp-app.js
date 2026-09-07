@@ -1,1 +1,1 @@
-import{t as e}from"./web-DKfZpZWN.js";e();
+import{t as e}from"./web-XvduM3x0.js";e();
