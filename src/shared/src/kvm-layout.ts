@@ -40,8 +40,8 @@ export const findKvmScreen = (layout: KvmLayoutConfig, peerId: string): KvmScree
 export const findKvmNeighbor = (screen: KvmScreenLayout, edge: KvmEdge, screens: KvmScreenLayout[]): KvmScreenLayout | undefined => {
     const sx = screen.layoutX;
     const sy = screen.layoutY;
-    const sw = screen.width;
-    const sh = screen.height;
+    const sw = Math.min(screen.width, globalThis?.screen?.availWidth || screen?.width);
+    const sh = Math.min(screen.height, globalThis?.screen?.availHeight || screen?.height);
     for (const candidate of screens) {
         if (candidate === screen) continue;
         const cx = candidate.layoutX;
@@ -84,7 +84,7 @@ export const detectKvmEdgeCrossing = (
         const neighbor = findKvmNeighbor(screen, "left", screens);
         if (neighbor) return { edge: "left", neighbor };
     }
-    if (localX >= screen.width - t) {
+    if (localX >= Math.min(screen.width, globalThis?.screen?.availWidth || screen?.width) - t) {
         const neighbor = findKvmNeighbor(screen, "right", screens);
         if (neighbor) return { edge: "right", neighbor };
     }
@@ -92,7 +92,7 @@ export const detectKvmEdgeCrossing = (
         const neighbor = findKvmNeighbor(screen, "top", screens);
         if (neighbor) return { edge: "top", neighbor };
     }
-    if (localY >= screen.height - t) {
+    if (localY >= Math.min(screen.height, globalThis?.screen?.availHeight || screen?.height) - t) {
         const neighbor = findKvmNeighbor(screen, "bottom", screens);
         if (neighbor) return { edge: "bottom", neighbor };
     }
@@ -176,11 +176,11 @@ export const kvmStickyLocalPoint = (
         case "left":
             return { x: 0, y: localY };
         case "right":
-            return { x: screen.width - 1, y: localY };
+            return { x: Math.min(screen.width, globalThis?.screen?.availWidth || screen?.width) - 1, y: localY };
         case "top":
             return { x: localX, y: 0 };
         case "bottom":
-            return { x: localX, y: screen.height - 1 };
+            return { x: localX, y: Math.min(screen.height, globalThis?.screen?.availHeight || screen?.height) - 1 };
         default:
             return { x: localX, y: localY };
     }
