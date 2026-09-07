@@ -2,12 +2,12 @@
   "ok": true,
   "sku": "document",
   "packageId": "space.u2re.document",
-  "versionCode": 61,
-  "versionName": "0.0.61",
+  "versionCode": 62,
+  "versionName": "0.0.62",
   "apk": "cwsp-document.apk",
   "apkUrl": "/releases/android/cwsp-document.apk",
-  "sha256": "f4535475157cc7d3a954f5185fffad5234068f58fd474ac10df37e7d268a5729",
+  "sha256": "2a13b7a6e7399a3e3eb711ba736c9893b8efcbd235b2159c9f51ca73c66dccf0",
   "signatureSha256": "288eb7c36447f0b4e15797ecd0a2a85ef800efaadaf07db13ee8a38f782fbad3",
-  "size": 14962372,
-  "builtAt": "2026-09-06T12:16:52.427Z"
+  "size": 14965428,
+  "builtAt": "2026-09-07T02:08:01.058Z"
 }

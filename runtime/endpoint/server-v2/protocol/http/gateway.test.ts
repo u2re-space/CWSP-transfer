@@ -311,7 +311,7 @@ test("gateway BFF prefills session settings and still redacts topology secrets",
         },
         ai: {
             baseUrl: "https://api.openai.com/v1",
-            model: "gpt-5.4",
+            model: "gpt-5.6-luna",
             apiKey: "sk-test-saved"
         }
     };
