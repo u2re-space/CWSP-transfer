@@ -10,6 +10,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
+import { requireJavaHome } from "../../CWSP-shell/scripts/resolve-java-home.mjs";
 import { bumpCapacitorVersion } from "./bump-capacitor-version.mjs";
 
 const APP_ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -45,22 +46,6 @@ function run(cmd, args, opts = {}) {
     if (r.status !== 0) {
         throw new Error(`${cmd} failed with status ${r.status}`);
     }
-}
-
-function resolveJavaHome() {
-    if (process.env.JAVA_HOME && fs.existsSync(path.join(process.env.JAVA_HOME, "bin/java"))) {
-        return process.env.JAVA_HOME;
-    }
-    const candidates = [
-        process.env.JAVA_HOME_21,
-        "/usr/lib/jvm/java-21-openjdk-amd64",
-        "/usr/lib/jvm/java-17-openjdk-amd64",
-        process.env.JAVA_HOME_17
-    ].filter(Boolean);
-    for (const home of candidates) {
-        if (fs.existsSync(path.join(home, "bin/java"))) return home;
-    }
-    return process.env.JAVA_HOME || "";
 }
 
 function main() {
@@ -101,15 +86,14 @@ function main() {
         console.log(`[build:capacitor] restored gradle-wrapper.jar from ${src}`);
     }
 
-    const javaHome = resolveJavaHome();
+    // WHY: PATH java is OpenJDK 25; AGP 8.13 bundleLibCompileToJarDebug dies on it.
+    const javaHome = requireJavaHome();
     const env = {
+        JAVA_HOME: javaHome,
         ANDROID_HOME: process.env.ANDROID_HOME || "/home/u2re-dev/Android/Sdk",
         ANDROID_SDK_ROOT: process.env.ANDROID_SDK_ROOT || process.env.ANDROID_HOME || "/home/u2re-dev/Android/Sdk"
     };
-    if (javaHome) {
-        env.JAVA_HOME = javaHome;
-        console.log(`[build:capacitor] JAVA_HOME=${javaHome}`);
-    }
+    console.log(`[build:capacitor] JAVA_HOME=${javaHome}`);
 
     const buildType = args.release ? "Release" : "Debug";
     const task = `assemble${buildType}`;
