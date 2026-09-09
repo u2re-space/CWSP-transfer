@@ -1,0 +1,1 @@
+import"./Settings-C-3GRbtg.js";import{n as e,t}from"./entities-eizae4Ry.js";e();export{t as extractEntities};

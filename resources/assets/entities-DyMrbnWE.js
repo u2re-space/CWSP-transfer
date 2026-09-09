@@ -1,1 +1,0 @@
-import"./Settings-CZqkAirH.js";import{n as e,t}from"./entities-CFzrWnVi.js";e();export{t as extractEntities};
