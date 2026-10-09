@@ -16,14 +16,14 @@
         "tokens": ["REPLACE_WITH_GATEWAY_SECRET"],
         "flags": { "gateway": true },
         "forward": [{ "id": "L-192.168.0.110" }],
-        "allowedForwards": ["L-192.168.0.110", "L-45.150.9.153"]
+        "allowedForwards": ["L-192.168.0.110", "L-153.76.161.210"]
       },
       "L-192.168.0.110": {
         "origins": ["https://192.168.0.110:8434", "https://192.168.0.110"],
         "tokens": ["REPLACE_WITH_WINDOWS_CWSP_TOKEN"]
       },
-      "L-45.150.9.153": {
-        "origins": ["https://45.150.9.153:8434"],
+      "L-153.76.161.210": {
+        "origins": ["https://153.76.161.210:8434"],
         "tokens": ["VDS-client"],
         "flags": { "mobile": true }
       }
@@ -31,7 +31,7 @@
     "network": {
       "networkAliases": {
         "l-192.168.0.110": "l-192.168.0.110",
-        "l-45.150.9.153": "l-45.150.9.153"
+        "l-153.76.161.210": "l-153.76.161.210"
       }
     }
   }

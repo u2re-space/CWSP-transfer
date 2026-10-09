@@ -154,7 +154,7 @@ test("orderedDialCandidates prefers verified lan before wan-direct", () => {
         {
             toId: "L-210",
             class: "wan-direct",
-            origin: "https://45.150.9.153:8434",
+            origin: "https://153.76.161.210:8434",
             verified: true,
             source: "self",
             ts: 2,
