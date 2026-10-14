@@ -264,6 +264,8 @@
                 <action android:name="space.u2re.cwsp.FILES_OPEN_FILE" />
                 <action android:name="space.u2re.cwsp.FILES_OUTGOING_DISMISS" />
                 <action android:name="space.u2re.cwsp.FILES_OUTGOING_ABORT" />
+                <action android:name="space.u2re.cwsp.BT_FILE_ACCEPT" />
+                <action android:name="space.u2re.cwsp.BT_FILE_REJECT" />
             </intent-filter>
         </receiver>
 

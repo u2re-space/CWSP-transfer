@@ -21,6 +21,9 @@ export type BluetoothPayloadKind =
     | "clipboard-text"
     | "clipboard-image"
     | "file"
+    | "file-offer"
+    | "file-accept"
+    | "file-reject"
     | "packet";
 
 export interface BluetoothFrameHeader {
@@ -55,6 +58,9 @@ const KIND_SET = new Set<BluetoothPayloadKind>([
     "clipboard-text",
     "clipboard-image",
     "file",
+    "file-offer",
+    "file-accept",
+    "file-reject",
     "packet",
 ]);
 

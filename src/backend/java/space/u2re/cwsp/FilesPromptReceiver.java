@@ -17,6 +17,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
+import emission.BluetoothTransfer;
 import emission.FilesAcceptRunner;
 import emission.FilesIngress;
 import emission.FilesOutboundOffer;
@@ -115,6 +116,18 @@ public class FilesPromptReceiver extends BroadcastReceiver {
                         Log.w(TAG, "openLandingFile failed transferId=" + transferId
                                 + " path=" + filePath + " contentUri=" + contentUri);
                     }
+                    break;
+                }
+                case BluetoothTransfer.ACTION_ACCEPT: {
+                    BluetoothTransfer.acceptOffer(
+                            context.getApplicationContext(),
+                            intent.getStringExtra(BluetoothTransfer.EXTRA_UUID));
+                    break;
+                }
+                case BluetoothTransfer.ACTION_REJECT: {
+                    BluetoothTransfer.rejectOffer(
+                            context.getApplicationContext(),
+                            intent.getStringExtra(BluetoothTransfer.EXTRA_UUID));
                     break;
                 }
                 case FilesOutgoingNotifier.NOTIF_ACTION_DISMISS: {

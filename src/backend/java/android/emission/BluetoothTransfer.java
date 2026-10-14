@@ -6,6 +6,8 @@
  * FIND:bluetooth
  * WHY: LTE / no-hub phones still need a direct hop. Classic RFCOMM (not BLE)
  * carries a CWSB length-prefixed frame matching cwsp-shared bluetooth-transport.
+ * File bytes wait for file-accept: the sender writes file-offer, the peer
+ * Accept/Decline notification replies, then the same socket carries the file.
  *
  * INVARIANT: never block the main thread on connect/write.
  * SECURITY: hello.auth must match the local fleet token when one is stored;
@@ -15,15 +17,21 @@
 package emission;
 
 import android.Manifest;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothServerSocket;
 import android.bluetooth.BluetoothSocket;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Looper;
 import android.util.Log;
+
+import androidx.core.app.NotificationCompat;
 
 import androidx.core.content.ContextCompat;
 
@@ -43,6 +51,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -56,6 +65,11 @@ public final class BluetoothTransfer {
     public static final String SERVICE_UUID = "6e757265-4357-5350-4254-000000000001";
     public static final String SERVICE_NAME = "CWSP";
     public static final int MAX_BYTES = 2 * 1024 * 1024;
+    public static final String ACTION_ACCEPT = "space.u2re.cwsp.BT_FILE_ACCEPT";
+    public static final String ACTION_REJECT = "space.u2re.cwsp.BT_FILE_REJECT";
+    public static final String EXTRA_UUID = "btUuid";
+    private static final String BT_CHANNEL = "cwsp-bt-incoming";
+    private static final int ACCEPT_TIMEOUT_MS = 45_000;
     private static final byte[] MAGIC = { 'C', 'W', 'S', 'B' };
     private static final int VERSION = 1;
     private static final UUID RFCOMM_UUID = UUID.fromString(SERVICE_UUID);
@@ -70,6 +84,15 @@ public final class BluetoothTransfer {
     private static volatile Context appContext;
     private static volatile boolean wantListen;
     private static volatile BluetoothServerSocket server;
+
+    private static final class PendingOffer {
+        BluetoothSocket socket;
+        String fromId;
+        String name;
+        int size;
+    }
+
+    private static final ConcurrentHashMap<String, PendingOffer> INBOUND = new ConcurrentHashMap<>();
 
     private BluetoothTransfer() {}
 
@@ -182,9 +205,71 @@ public final class BluetoothTransfer {
             if (f == null || f.path == null) continue;
             byte[] bytes = readFileCapped(new File(f.path), MAX_BYTES);
             if (bytes == null) continue;
-            if (sendBytes(context, destinations, "file", f.name, null, bytes, fromId)) any = true;
+            if (sendFileAwaitingAccept(context, destinations, f.name, null, bytes, fromId)) any = true;
         }
         return any;
+    }
+
+    /**
+     * RFCOMM file-offer. Bytes stay local until the peer notification Accept
+     * writes {@code file-accept} on the same socket.
+     */
+    public static boolean sendFileAwaitingAccept(
+            Context context,
+            List<String> destinations,
+            String name,
+            String mimeType,
+            byte[] bytes,
+            String fromId
+    ) {
+        if (context == null || bytes == null || bytes.length == 0 || bytes.length > MAX_BYTES) return false;
+        Context app = context.getApplicationContext();
+        if (!Configure.readBluetoothEnabled(app)) return false;
+        if (Looper.myLooper() == Looper.getMainLooper()) {
+            final byte[] copy = bytes;
+            final List<String> destCopy = destinations;
+            EXEC.execute(() -> sendFileAwaitingAccept(app, destCopy, name, mimeType, copy, fromId));
+            return false;
+        }
+        List<DeviceAliases.Record> map = Configure.readDeviceAliasMap(app);
+        List<String> dests = DeviceAliases.resolveAll(
+                destinations != null ? destinations : new ArrayList<String>(), map);
+        String sender = fromId != null && !fromId.isEmpty() ? fromId : Configure.readClientId(app);
+        if (sender == null) sender = "L-unknown";
+        boolean any = false;
+        for (String dest : dests) {
+            if (dest == null || dest.isEmpty() || dest.equals("*")) continue;
+            if (offerThenSend(app, dest, sender, name, mimeType, bytes, map)) any = true;
+        }
+        return any;
+    }
+
+    /** Capacitor {@code bluetooth:offer} — handshake runs off the bridge thread. */
+    public static void offerAsync(
+            Context context,
+            List<String> destinations,
+            String name,
+            String mimeType,
+            byte[] bytes,
+            String fromId
+    ) {
+        if (context == null || bytes == null) return;
+        final Context app = context.getApplicationContext();
+        final List<String> destCopy = destinations != null ? new ArrayList<>(destinations) : new ArrayList<String>();
+        final byte[] copy = bytes;
+        EXEC.execute(() -> sendFileAwaitingAccept(app, destCopy, name, mimeType, copy, fromId));
+    }
+
+    public static void acceptOffer(Context context, String uuid) {
+        if (uuid == null || uuid.isEmpty()) return;
+        Context app = context != null ? context.getApplicationContext() : appContext;
+        EXEC.execute(() -> finishOffer(app, uuid, true));
+    }
+
+    public static void rejectOffer(Context context, String uuid) {
+        if (uuid == null || uuid.isEmpty()) return;
+        Context app = context != null ? context.getApplicationContext() : appContext;
+        EXEC.execute(() -> finishOffer(app, uuid, false));
     }
 
     public static Map<String, Object> status(Context context) {
@@ -251,6 +336,7 @@ public final class BluetoothTransfer {
     }
 
     private static void handleClient(Context app, BluetoothSocket socket) {
+        boolean hold = false;
         try {
             Frame decoded = readFrame(socket.getInputStream());
             if (decoded == null) return;
@@ -264,14 +350,22 @@ public final class BluetoothTransfer {
             if (mac != null && fromId != null && !fromId.isEmpty()) {
                 learnMac(app, fromId, mac);
             }
+            String kind = str(decoded.header.get("kind"));
+            if ("file-offer".equals(kind)) {
+                hold = parkOffer(app, socket, decoded);
+                return;
+            }
+            if ("file-accept".equals(kind) || "file-reject".equals(kind)) return;
             applyInbound(app, decoded);
         } catch (Exception e) {
             Log.w(TAG, "handleClient failed", e);
         } finally {
-            try {
-                socket.close();
-            } catch (Exception ignored) {
-                /* */
+            if (!hold) {
+                try {
+                    socket.close();
+                } catch (Exception ignored) {
+                    /* */
+                }
             }
         }
     }
@@ -353,6 +447,193 @@ public final class BluetoothTransfer {
             if (name != null && name.toLowerCase(Locale.US).contains(want)) return d;
         }
         return null;
+    }
+
+    private static boolean offerThenSend(
+            Context app,
+            String destId,
+            String fromId,
+            String name,
+            String mime,
+            byte[] bytes,
+            List<DeviceAliases.Record> map
+    ) {
+        if (!hasConnectPermission(app)) return false;
+        BluetoothAdapter adapter = BluetoothAdapter.getDefaultAdapter();
+        if (adapter == null || !adapter.isEnabled()) return false;
+        BluetoothDevice device = resolveDevice(adapter, destId, map, app);
+        if (device == null) {
+            Log.w(TAG, "no bluetooth target for " + destId);
+            return false;
+        }
+        String uuid = UUID.randomUUID().toString();
+        String safeName = name != null && !name.isEmpty() ? name : "file.bin";
+        String offer = headerJson(
+                "file-offer", fromId, destId, safeName, mime, bytes.length, uuid, "files:offer", authToken(app));
+        BluetoothSocket socket = null;
+        try {
+            socket = device.createInsecureRfcommSocketToServiceRecord(RFCOMM_UUID);
+            adapter.cancelDiscovery();
+            socket.connect();
+            socket.setSoTimeout(ACCEPT_TIMEOUT_MS);
+            writeFrame(socket.getOutputStream(), offer, new byte[0]);
+            Frame reply = readFrame(socket.getInputStream());
+            String replyKind = reply != null ? str(reply.header.get("kind")) : null;
+            if (!"file-accept".equals(replyKind)) {
+                Log.i(TAG, "BT offer declined dest=" + destId + " kind=" + replyKind);
+                return false;
+            }
+            String fileHeader = headerJson(
+                    "file", fromId, destId, safeName, mime, bytes.length, uuid, "files:offer", authToken(app));
+            writeFrame(socket.getOutputStream(), fileHeader, bytes);
+            Log.i(TAG, "BT file sent after accept dest=" + destId + " bytes=" + bytes.length);
+            String mac = DeviceAliases.normalizeMac(device.getAddress());
+            if (mac != null) learnMac(app, destId, mac);
+            return true;
+        } catch (Exception e) {
+            Log.w(TAG, "BT offer failed dest=" + destId + " err=" + e.getMessage());
+            return false;
+        } finally {
+            if (socket != null) {
+                try {
+                    socket.close();
+                } catch (Exception ignored) {
+                    /* */
+                }
+            }
+        }
+    }
+
+    private static boolean parkOffer(Context app, BluetoothSocket socket, Frame decoded) {
+        int size = 0;
+        Object rawSize = decoded.header.get("size");
+        if (rawSize instanceof Number) size = ((Number) rawSize).intValue();
+        else if (rawSize != null) {
+            try {
+                size = Integer.parseInt(String.valueOf(rawSize));
+            } catch (NumberFormatException ignored) {
+                size = 0;
+            }
+        }
+        if (size <= 0 || size > MAX_BYTES) {
+            Log.w(TAG, "BT offer refused size=" + size);
+            return false;
+        }
+        String uuid = str(decoded.header.get("uuid"));
+        if (uuid == null || uuid.isEmpty()) uuid = UUID.randomUUID().toString();
+        PendingOffer pending = new PendingOffer();
+        pending.socket = socket;
+        pending.fromId = str(decoded.header.get("fromId"));
+        pending.name = str(decoded.header.get("name"));
+        pending.size = size;
+        PendingOffer previous = INBOUND.put(uuid, pending);
+        if (previous != null && previous.socket != null) {
+            try {
+                previous.socket.close();
+            } catch (Exception ignored) {
+                /* */
+            }
+        }
+        final String parked = uuid;
+        notifyOffer(app, parked, pending);
+        EXEC.execute(() -> {
+            try {
+                Thread.sleep(ACCEPT_TIMEOUT_MS);
+            } catch (InterruptedException ie) {
+                Thread.currentThread().interrupt();
+                return;
+            }
+            PendingOffer stale = INBOUND.remove(parked);
+            if (stale == null) return;
+            cancelOffer(app, parked);
+            try {
+                stale.socket.close();
+            } catch (Exception ignored) {
+                /* */
+            }
+        });
+        return true;
+    }
+
+    private static void finishOffer(Context app, String uuid, boolean accept) {
+        PendingOffer pending = INBOUND.remove(uuid);
+        if (pending == null || pending.socket == null) return;
+        cancelOffer(app, uuid);
+        try {
+            pending.socket.setSoTimeout(ACCEPT_TIMEOUT_MS);
+            String kind = accept ? "file-accept" : "file-reject";
+            String fromId = Configure.readClientId(app);
+            if (fromId == null || fromId.isEmpty()) fromId = "L-unknown";
+            String header = headerJson(
+                    kind, fromId, pending.fromId, pending.name, null, 0, uuid, "files:offer", authToken(app));
+            writeFrame(pending.socket.getOutputStream(), header, new byte[0]);
+            if (!accept) return;
+            Frame file = readFrame(pending.socket.getInputStream());
+            if (file == null) return;
+            String fileKind = str(file.header.get("kind"));
+            if (!"file".equals(fileKind)) return;
+            applyInbound(app, file);
+        } catch (Exception e) {
+            Log.w(TAG, "BT offer finish failed uuid=" + uuid, e);
+        } finally {
+            try {
+                pending.socket.close();
+            } catch (Exception ignored) {
+                /* */
+            }
+        }
+    }
+
+    private static void notifyOffer(Context app, String uuid, PendingOffer pending) {
+        if (app == null) return;
+        try {
+            ensureBtChannel(app);
+            int id = 0xB700 + (uuid.hashCode() & 0x0FFF);
+            int flags = PendingIntent.FLAG_UPDATE_CURRENT;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) flags |= PendingIntent.FLAG_IMMUTABLE;
+            Intent accept = new Intent(ACTION_ACCEPT);
+            accept.setPackage(app.getPackageName());
+            accept.putExtra(EXTRA_UUID, uuid);
+            Intent reject = new Intent(ACTION_REJECT);
+            reject.setPackage(app.getPackageName());
+            reject.putExtra(EXTRA_UUID, uuid);
+            PendingIntent acceptPi = PendingIntent.getBroadcast(app, id, accept, flags);
+            PendingIntent rejectPi = PendingIntent.getBroadcast(app, id | 0x4000, reject, flags);
+            String who = pending.fromId != null && !pending.fromId.isEmpty() ? pending.fromId : "a paired device";
+            String name = pending.name != null && !pending.name.isEmpty() ? pending.name : "file";
+            NotificationCompat.Builder b = new NotificationCompat.Builder(app, BT_CHANNEL)
+                    .setSmallIcon(android.R.drawable.stat_sys_download_done)
+                    .setContentTitle("Bluetooth file")
+                    .setContentText(name + " from " + who)
+                    .setPriority(NotificationCompat.PRIORITY_HIGH)
+                    .setAutoCancel(true)
+                    .addAction(0, "Accept", acceptPi)
+                    .addAction(0, "Decline", rejectPi);
+            NotificationManager nm = (NotificationManager) app.getSystemService(Context.NOTIFICATION_SERVICE);
+            if (nm != null) nm.notify(id, b.build());
+        } catch (Exception e) {
+            Log.w(TAG, "BT offer notify failed", e);
+        }
+    }
+
+    private static void cancelOffer(Context app, String uuid) {
+        if (app == null || uuid == null) return;
+        try {
+            NotificationManager nm = (NotificationManager) app.getSystemService(Context.NOTIFICATION_SERVICE);
+            if (nm != null) nm.cancel(0xB700 + (uuid.hashCode() & 0x0FFF));
+        } catch (Exception ignored) {
+            /* */
+        }
+    }
+
+    private static void ensureBtChannel(Context app) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) return;
+        NotificationManager nm = (NotificationManager) app.getSystemService(Context.NOTIFICATION_SERVICE);
+        if (nm == null || nm.getNotificationChannel(BT_CHANNEL) != null) return;
+        NotificationChannel ch = new NotificationChannel(
+                BT_CHANNEL, "CWSP Bluetooth files", NotificationManager.IMPORTANCE_HIGH);
+        ch.setDescription("Accept a file offered over Bluetooth");
+        nm.createNotificationChannel(ch);
     }
 
     @SuppressWarnings("unchecked")

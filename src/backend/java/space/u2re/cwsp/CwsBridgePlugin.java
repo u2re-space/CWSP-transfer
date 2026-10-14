@@ -619,6 +619,21 @@ public class CwsBridgePlugin extends Plugin {
                 call.resolve(bluetoothStatus());
                 return;
             }
+            if ("bluetooth:offer".equals(channel)) {
+                if (!BluetoothTransfer.hasConnectPermission(getContext())) {
+                    requestPermissionForAlias("bluetooth", call, "onBluetoothPerms");
+                    return;
+                }
+                JSObject payload = call.getObject("payload", new JSObject());
+                boolean queued = queueBluetoothOffer(payload);
+                JSObject r = baseResult(queued, channel);
+                JSObject echo = new JSObject();
+                echo.put("pending", queued);
+                if (!queued) echo.put("error", "bluetooth offer needs destinations and bytes");
+                r.put("echo", echo);
+                call.resolve(r);
+                return;
+            }
             JSObject result = dispatch(channel, payload);
             call.resolve(result);
         } catch (Exception e) {
@@ -1190,6 +1205,46 @@ public class CwsBridgePlugin extends Plugin {
             if (conn != null) conn.disconnect();
         }
         return row;
+    }
+
+    private boolean queueBluetoothOffer(JSObject payload) {
+        if (payload == null || getContext() == null) return false;
+        String b64 = payload.getString("base64", "");
+        if (b64 == null || b64.isEmpty()) b64 = payload.getString("data", "");
+        if (b64 == null || b64.isEmpty()) return false;
+        int comma = b64.indexOf(',');
+        if (b64.regionMatches(true, 0, "data:", 0, 5) && comma > 0) b64 = b64.substring(comma + 1);
+        byte[] bytes;
+        try {
+            bytes = android.util.Base64.decode(b64, android.util.Base64.DEFAULT);
+        } catch (Exception e) {
+            return false;
+        }
+        if (bytes == null || bytes.length == 0 || bytes.length > BluetoothTransfer.MAX_BYTES) return false;
+        List<String> dests = new ArrayList<>();
+        try {
+            org.json.JSONArray arr = payload.getJSONArray("destinations");
+            if (arr != null) {
+                for (int i = 0; i < arr.length(); i++) {
+                    String id = arr.optString(i, "");
+                    if (id != null && !id.isEmpty()) dests.add(id);
+                }
+            }
+        } catch (Exception ignored) {
+            /* destinations may be a string */
+        }
+        if (dests.isEmpty()) {
+            String one = payload.getString("destinations", "");
+            if (one == null || one.isEmpty()) one = payload.getString("to", "");
+            if (one != null && !one.trim().isEmpty()) dests.add(one.trim());
+        }
+        if (dests.isEmpty()) return false;
+        String name = payload.getString("name", "file.bin");
+        String mime = payload.getString("mimeType", "");
+        if (mime == null || mime.isEmpty()) mime = payload.getString("mime", "");
+        BluetoothTransfer.offerAsync(
+                getContext(), dests, name, mime, bytes, payload.getString("fromId", ""));
+        return true;
     }
 
     private JSObject bluetoothStatus() {
