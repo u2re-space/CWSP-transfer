@@ -475,7 +475,7 @@ public final class BluetoothTransfer {
             socket = device.createInsecureRfcommSocketToServiceRecord(RFCOMM_UUID);
             adapter.cancelDiscovery();
             socket.connect();
-            socket.setSoTimeout(ACCEPT_TIMEOUT_MS);
+            setReadTimeout(socket, ACCEPT_TIMEOUT_MS);
             writeFrame(socket.getOutputStream(), offer, new byte[0]);
             Frame reply = readFrame(socket.getInputStream());
             String replyKind = reply != null ? str(reply.header.get("kind")) : null;
@@ -560,7 +560,7 @@ public final class BluetoothTransfer {
         if (pending == null || pending.socket == null) return;
         cancelOffer(app, uuid);
         try {
-            pending.socket.setSoTimeout(ACCEPT_TIMEOUT_MS);
+            setReadTimeout(pending.socket, ACCEPT_TIMEOUT_MS);
             String kind = accept ? "file-accept" : "file-reject";
             String fromId = Configure.readClientId(app);
             if (fromId == null || fromId.isEmpty()) fromId = "L-unknown";
@@ -820,6 +820,19 @@ public final class BluetoothTransfer {
         buf.put(body);
         out.write(buf.array());
         out.flush();
+    }
+
+    /**
+     * WHY: {@code BluetoothSocket.setSoTimeout} is {@code @hide} and absent from the
+     * public SDK stubs, so a direct call fails javac. The method is public on device.
+     */
+    private static void setReadTimeout(BluetoothSocket socket, int timeoutMs) {
+        if (socket == null) return;
+        try {
+            socket.getClass().getMethod("setSoTimeout", int.class).invoke(socket, timeoutMs);
+        } catch (Throwable ignored) {
+            /* read still ends when the socket is closed */
+        }
     }
 
     private static Frame readFrame(InputStream in) throws IOException {

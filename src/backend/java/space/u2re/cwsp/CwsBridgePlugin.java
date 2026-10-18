@@ -624,7 +624,6 @@ public class CwsBridgePlugin extends Plugin {
                     requestPermissionForAlias("bluetooth", call, "onBluetoothPerms");
                     return;
                 }
-                JSObject payload = call.getObject("payload", new JSObject());
                 boolean queued = queueBluetoothOffer(payload);
                 JSObject r = baseResult(queued, channel);
                 JSObject echo = new JSObject();

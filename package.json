@@ -1,6 +1,6 @@
 {
     "name": "cwsp-reborn",
-    "version": "0.0.222",
+    "version": "0.0.224",
     "private": true,
     "type": "module",
     "scripts": {
@@ -101,6 +101,7 @@
         "@capacitor/text-zoom": "^8.0.1",
         "@types/node": ">=26.4.1",
         "clipboardy": ">=5.3.2",
+        "css-typed-om": "^1.0.0",
         "fflate": "^0.8.3",
         "gzip-size": "^7.0.0",
         "pako": "^3.0.1",
