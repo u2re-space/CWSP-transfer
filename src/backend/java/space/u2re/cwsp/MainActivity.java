@@ -60,6 +60,8 @@ public class MainActivity extends BridgeActivity {
         } catch (Exception e) {
             Log.w(TAG, "EdgeToEdge.enable failed", e);
         }
+        /* WHY: WebView latches display Hz inside super.onCreate. */
+        DisplayRefreshUnlock.applyToWindow(this);
         super.onCreate(savedInstanceState);
         hideNativeTitleBar();
         applyTransparentSystemBars();
@@ -84,6 +86,14 @@ public class MainActivity extends BridgeActivity {
         super.onStart();
         hideNativeTitleBar();
         applyTransparentSystemBars();
+        DisplayRefreshUnlock.applyToWindow(this);
+        try {
+            if (getBridge() != null && getBridge().getWebView() != null) {
+                DisplayRefreshUnlock.applyToWebView(getBridge().getWebView());
+            }
+        } catch (Exception e) {
+            Log.w(TAG, "refresh unlock onStart failed", e);
+        }
     }
 
     /**
@@ -160,6 +170,14 @@ public class MainActivity extends BridgeActivity {
     public void onResume() {
         super.onResume();
         applyTransparentSystemBars();
+        DisplayRefreshUnlock.applyToWindow(this);
+        try {
+            if (getBridge() != null && getBridge().getWebView() != null) {
+                DisplayRefreshUnlock.applyToWebView(getBridge().getWebView());
+            }
+        } catch (Exception e) {
+            Log.w(TAG, "refresh unlock onResume failed", e);
+        }
         try {
             SharedPreferences prefs = getApplicationContext()
                     .getSharedPreferences("cwsp_configure", MODE_PRIVATE);

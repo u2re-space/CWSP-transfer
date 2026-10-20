@@ -10,6 +10,7 @@
         <item name="android:navigationBarDividerColor">@android:color/transparent</item>
         <item name="android:enforceNavigationBarContrast">false</item>
         <item name="android:enforceStatusBarContrast">false</item>
+        <item name="android:windowIsFrameRatePowerSavingsBalanced">false</item>
     </style>
 
     <style name="AppTheme.ShareOverlay">
