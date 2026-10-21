@@ -2,12 +2,12 @@
   "ok": true,
   "sku": "explorer",
   "packageId": "space.u2re.explorer",
-  "versionCode": 60,
-  "versionName": "0.0.60",
+  "versionCode": 64,
+  "versionName": "0.0.64",
   "apk": "cwsp-explorer.apk",
   "apkUrl": "/releases/android/cwsp-explorer.apk",
-  "sha256": "d6f0dec22426d2f83d2823f2b4faad1cf1a659e86e111ce0976c8bc3242852a5",
+  "sha256": "8674fb33888a88cf27b9afe6babb11857bcacf71579aba1207387cfc419e8771",
   "signatureSha256": "288eb7c36447f0b4e15797ecd0a2a85ef800efaadaf07db13ee8a38f782fbad3",
-  "size": 15288767,
-  "builtAt": "2026-10-18T15:37:02.807Z"
+  "size": 15379967,
+  "builtAt": "2026-10-21T01:09:54.455Z"
 }
