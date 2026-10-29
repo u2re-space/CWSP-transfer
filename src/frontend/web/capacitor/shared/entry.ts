@@ -1,11 +1,10 @@
 /*
  * Filename: entry.ts
  * FullPath: apps/CWSP-reborn/src/frontend/web/capacitor/shared/entry.ts
- * Change date and time: 22.50.00_22.08.2026
- * Reason for changes: Stamp transfer SKU so Settings keeps the CWSP tab (not launcher profile).
+ * Change date and time: 12.00.00_21.10.2026
+ * Reason for changes: Transfer SKU keeps the native Android nav bar visible (no SystemBars.hide).
  */
 
-import { SystemBarType, SystemBars } from "@capacitor/core";
 import { bootMinimal } from "boot/BootLoader";
 import { applyCwspSku, stashSkuHandoff } from "com/config/ecosystem-skus";
 
@@ -23,10 +22,6 @@ try {
 } catch {
     /* ignore */
 }
-
-void SystemBars.hide({ bar: SystemBarType.NavigationBar }).catch(() => {
-    /* native-only; web preview ignores */
-});
 
 function showBootFailure(error: unknown): void {
     const message = error instanceof Error ? error.stack || error.message : String(error);
