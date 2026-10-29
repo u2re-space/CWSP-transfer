@@ -51,7 +51,7 @@ type RecognitionResult = {
 };
 
 const DEFAULT_API_URL = "https://api.proxyapi.ru/v1";
-const DEFAULT_MODEL = "gpt-5.6-luna";
+const DEFAULT_MODEL = "gpt-6-luna";
 
 const resolveMcpTools = (mcp: Array<any> | undefined) => {
     if (!Array.isArray(mcp)) return [];
