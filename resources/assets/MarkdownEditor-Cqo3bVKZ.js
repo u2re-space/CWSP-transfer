@@ -5243,7 +5243,7 @@ import{n as e}from"./rolldown-runtime-C0FnF6B9.js";import{i as t}from"./src-DRfe
       box-sizing: border-box;
       background-color: var(--view-bg);
       color: var(--view-fg);
-      color: contrast-color(var(--view-bg));
+      color: --u2-contrast-color(var(--view-bg));
       min-block-size: max(100%, 100cqb);
       min-inline-size: 0;
       block-size: max-content;
@@ -5721,7 +5721,7 @@ import{n as e}from"./rolldown-runtime-C0FnF6B9.js";import{i as t}from"./src-DRfe
       min-inline-size: 0;
       padding: 0;
       background-color: var(--view-bg);
-      color: contrast-color(var(--view-bg));
+      color: --u2-contrast-color(var(--view-bg));
       block-size: stretch;
       flex-grow: 1;
     }
@@ -5729,7 +5729,7 @@ import{n as e}from"./rolldown-runtime-C0FnF6B9.js";import{i as t}from"./src-DRfe
       background-color: rgba(0, 122, 204, 0.05);
       outline: 2px dashed rgba(0, 122, 204, 0.3);
       outline-offset: -8px;
-      color: contrast-color(rgba(0, 122, 204, 0.05));
+      color: --u2-contrast-color(rgba(0, 122, 204, 0.05));
     }
     /* Standalone / non–slot-mode: __content is the scrollport */
     .cw-view-viewer-shell:not(:has(.cw-view-viewer__slot-default)) .view-viewer__content {
@@ -5745,7 +5745,7 @@ import{n as e}from"./rolldown-runtime-C0FnF6B9.js";import{i as t}from"./src-DRfe
       background-color: rgba(0, 122, 204, 0.05);
       outline: 2px dashed rgba(0, 122, 204, 0.3);
       outline-offset: -8px;
-      color: contrast-color(rgba(0, 122, 204, 0.05));
+      color: --u2-contrast-color(rgba(0, 122, 204, 0.05));
     }
     /* Shell / critical CSS may set user-select:none on broad ancestors — keep prose selectable and context menus usable. */
     .cw-view-viewer-shell [data-render-target],
@@ -5792,7 +5792,7 @@ import{n as e}from"./rolldown-runtime-C0FnF6B9.js";import{i as t}from"./src-DRfe
       padding: var(--view-padding);
       color: var(--view-fg);
       background-color: var(--view-bg);
-      color: contrast-color(var(--view-bg));
+      color: --u2-contrast-color(var(--view-bg));
       border: none;
       font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
       font-size: 0.8125rem;
@@ -5818,13 +5818,13 @@ import{n as e}from"./rolldown-runtime-C0FnF6B9.js";import{i as t}from"./src-DRfe
       color: inherit;
       background: transparent;
       outline: none;
-      caret-color: contrast-color(var(--view-bg));
+      caret-color: --u2-contrast-color(var(--view-bg));
     }
     .cw-view-viewer-shell .markdown-viewer-raw > code[contenteditable].code-highlight-painted:not(.code-highlight-source-only),
     .cw-view-viewer-shell pre[data-raw-target] > code[contenteditable].code-highlight-painted:not(.code-highlight-source-only) {
       color: transparent;
       -webkit-text-fill-color: transparent;
-      caret-color: contrast-color(var(--view-bg));
+      caret-color: --u2-contrast-color(var(--view-bg));
     }
     .cw-view-viewer-shell .markdown-viewer-raw > code.code-highlight-source-only,
     .cw-view-viewer-shell pre[data-raw-target] > code.code-highlight-source-only {
@@ -5836,14 +5836,14 @@ import{n as e}from"./rolldown-runtime-C0FnF6B9.js";import{i as t}from"./src-DRfe
       padding: var(--view-padding);
       color: var(--view-fg);
       background-color: var(--view-bg);
-      color: contrast-color(var(--view-bg));
+      color: --u2-contrast-color(var(--view-bg));
     }
     cw-view-viewer [data-render-target].markdown-body,
     cw-view-viewer [data-render-target].cw-view-viewer__prose {
       padding: var(--view-padding);
       color: var(--view-fg);
       background-color: var(--view-bg);
-      color: contrast-color(var(--view-bg));
+      color: --u2-contrast-color(var(--view-bg));
     }
     .cw-view-viewer-shell .markdown-body h1,
     cw-view-viewer .markdown-body h1 {
@@ -6008,7 +6008,7 @@ import{n as e}from"./rolldown-runtime-C0FnF6B9.js";import{i as t}from"./src-DRfe
       min-block-size: 0;
       color: var(--view-fg, var(--color-on-surface, light-dark(#1a1a1a, #e5e7eb)));
       background: var(--view-bg, var(--color-surface, light-dark(#f4f6fa, #060d17)));
-      color: contrast-color(var(--view-bg, var(--color-surface, light-dark(#f4f6fa, #060d17))));
+      color: --u2-contrast-color(var(--view-bg, var(--color-surface, light-dark(#f4f6fa, #060d17))));
     }
     .view-viewer__toolbar {
       grid-row: toolbar-row;
@@ -6022,7 +6022,7 @@ import{n as e}from"./rolldown-runtime-C0FnF6B9.js";import{i as t}from"./src-DRfe
       background: var(--view-toolbar-bg, light-dark(color-mix(in oklab, var(--color-surface-container, #e2e8f0) 88%, transparent), color-mix(in oklab, var(--color-surface-container, #0f1a2b) 88%, transparent)));
       min-inline-size: 100%;
       box-sizing: border-box;
-      color: contrast-color(var(--view-toolbar-bg, light-dark(color-mix(in oklab, var(--color-surface-container, #e2e8f0) 88%, transparent), color-mix(in oklab, var(--color-surface-container, #0f1a2b) 88%, transparent))));
+      color: --u2-contrast-color(var(--view-toolbar-bg, light-dark(color-mix(in oklab, var(--color-surface-container, #e2e8f0) 88%, transparent), color-mix(in oklab, var(--color-surface-container, #0f1a2b) 88%, transparent))));
     }
   }
   .view-viewer__toolbar-left,
@@ -6120,7 +6120,7 @@ import{n as e}from"./rolldown-runtime-C0FnF6B9.js";import{i as t}from"./src-DRfe
       padding: var(--padding-xs) var(--padding-sm);
       border-radius: var(--radius-md);
       background-color: oklch(from var(--surface-container-high) l c h/0.9);
-      color: contrast-color(oklch(from var(--surface-container-high) l c h/0.9));
+      color: --u2-contrast-color(oklch(from var(--surface-container-high) l c h/0.9));
       backdrop-filter: blur(8px);
       z-index: 100;
       opacity: 0;
@@ -6170,7 +6170,7 @@ import{n as e}from"./rolldown-runtime-C0FnF6B9.js";import{i as t}from"./src-DRfe
       padding: var(--padding-sm) var(--padding-md);
       background-color: oklch(from var(--error) l c h/0.1);
       color: var(--error);
-      color: contrast-color(oklch(from var(--error) l c h/0.1));
+      color: --u2-contrast-color(oklch(from var(--error) l c h/0.1));
       border-radius: var(--radius-md);
       font: var(--type-label-medium, inherit);
       text-align: center;
@@ -6278,7 +6278,7 @@ import{n as e}from"./rolldown-runtime-C0FnF6B9.js";import{i as t}from"./src-DRfe
     ui-file-manager {
       background-color: oklch(from --c2-surface(0.15, var(--current, currentColor)) l c h/0.9);
       color: var(--on-surface, currentColor);
-      color: contrast-color(oklch(from --c2-surface(0.15, var(--current, currentColor)) l c h/0.9));
+      color: --u2-contrast-color(oklch(from --c2-surface(0.15, var(--current, currentColor)) l c h/0.9));
       backdrop-filter: blur(1rem);
     }
     ui-tabbed-box {
@@ -6331,7 +6331,7 @@ import{n as e}from"./rolldown-runtime-C0FnF6B9.js";import{i as t}from"./src-DRfe
       transition: opacity var(--transition-normal);
       background-color: oklch(from --c2-surface(0.15, var(--current, currentColor)) l c h/0.9);
       backdrop-filter: blur(1rem);
-      color: contrast-color(oklch(from --c2-surface(0.15, var(--current, currentColor)) l c h/0.9));
+      color: --u2-contrast-color(oklch(from --c2-surface(0.15, var(--current, currentColor)) l c h/0.9));
     }
     ui-tabbed-box .viewer-tab-content:empty::after {
       content: "No items to display";
@@ -6495,7 +6495,7 @@ import{n as e}from"./rolldown-runtime-C0FnF6B9.js";import{i as t}from"./src-DRfe
       border-radius: var(--radius-sm);
       background-color: oklch(from var(--surface-color) l c h/0.6);
       color: var(--on-surface, currentColor);
-      color: contrast-color(oklch(from var(--surface-color) l c h/0.6));
+      color: --u2-contrast-color(oklch(from var(--surface-color) l c h/0.6));
       pointer-events: none;
       inline-size: fit-content;
       justify-self: center;
@@ -7172,7 +7172,7 @@ import{n as e}from"./rolldown-runtime-C0FnF6B9.js";import{i as t}from"./src-DRfe
       border-radius: 6px;
       background-color: var(--color-primary, #007acc);
       color: #ffffff;
-      color: contrast-color(var(--color-primary, #007acc));
+      color: --u2-contrast-color(var(--color-primary, #007acc));
       font-size: 0.875rem;
       font-weight: 500;
       cursor: pointer;
@@ -8057,7 +8057,7 @@ import{n as e}from"./rolldown-runtime-C0FnF6B9.js";import{i as t}from"./src-DRfe
     .cip-select::picker-icon,
     select::picker-icon {
       grid-column: icon;
-      color: contrast-color(var(--color-on-surface, inherit));
+      color: --u2-contrast-color(var(--color-on-surface, inherit));
       background-color: var(--color-on-surface, currentColor);
       mask-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
       mask-position: center center;
@@ -8913,11 +8913,11 @@ import{n as e}from"./rolldown-runtime-C0FnF6B9.js";import{i as t}from"./src-DRfe
     }
     .view-viewer__content.dragover {
       color: var(--on-surface, currentColor);
-      color: contrast-color(rgba(0, 122, 204, 0.05));
+      color: --u2-contrast-color(rgba(0, 122, 204, 0.05));
       background-color: rgba(0, 122, 204, 0.05);
       outline: 2px dashed rgba(0, 122, 204, 0.3);
       outline-offset: -8px;
-      color: contrast-color(rgba(0, 122, 204, 0.05));
+      color: --u2-contrast-color(rgba(0, 122, 204, 0.05));
     }
     /* Standalone / non–slot-mode: __content is the scrollport */
     .cw-view-viewer-shell:not(:has(.cw-view-viewer__slot-default)) .view-viewer__content {
@@ -8931,11 +8931,11 @@ import{n as e}from"./rolldown-runtime-C0FnF6B9.js";import{i as t}from"./src-DRfe
     }
     .cw-view-viewer-shell.dragover {
       color: var(--on-surface, currentColor);
-      color: contrast-color(rgba(0, 122, 204, 0.05));
+      color: --u2-contrast-color(rgba(0, 122, 204, 0.05));
       background-color: rgba(0, 122, 204, 0.05);
       outline: 2px dashed rgba(0, 122, 204, 0.3);
       outline-offset: -8px;
-      color: contrast-color(rgba(0, 122, 204, 0.05));
+      color: --u2-contrast-color(rgba(0, 122, 204, 0.05));
     }
     /* Shell / critical CSS may set user-select:none on broad ancestors — keep prose selectable and context menus usable. */
     .cw-view-viewer-shell [data-render-target],
@@ -9276,7 +9276,7 @@ import{n as e}from"./rolldown-runtime-C0FnF6B9.js";import{i as t}from"./src-DRfe
         box-sizing: border-box;
         background-color: var(--view-bg);
         color: var(--view-fg);
-        color: contrast-color(var(--view-bg));
+        color: --u2-contrast-color(var(--view-bg));
         min-block-size: 0;
         min-inline-size: 0;
         block-size: 100%;

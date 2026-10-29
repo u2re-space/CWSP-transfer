@@ -683,7 +683,7 @@ import{n as e}from"./rolldown-runtime-C0FnF6B9.js";import{Et as t,Ft as n,J as r
     border-radius: 999px;
     background: color-mix(in oklab, var(--sv-surface-2, light-dark(#f4f6fa, #1c232d)) 94%, transparent);
     color: var(--sv-muted, light-dark(#5c6570, #a8b0bc));
-    color: contrast-color(var(--sv-surface-2, light-dark(#f4f6fa, #1c232d)));
+    color: --u2-contrast-color(var(--sv-surface-2, light-dark(#f4f6fa, #1c232d)));
     font-size: 0.75rem;
     font-weight: 500;
     transition: background-color 0.12s ease, color 0.12s ease, box-shadow 0.12s ease;
@@ -699,7 +699,7 @@ import{n as e}from"./rolldown-runtime-C0FnF6B9.js";import{Et as t,Ft as n,J as r
     border: 2px solid;
     border-color: var(--sv-accent, var(--sv-primary, #5a7fff));
     /*color: var(--sv-on-primary);
-    color: contrast-color(var(--sv-accent, var(--sv-primary, #5a7fff)));*/
+    color: --u2-contrast-color(var(--sv-accent, var(--sv-primary, #5a7fff)));*/
     /*box-shadow:
         0 2px 16px color-mix(in oklab, var(--sv-accent, var(--sv-primary, #5a7fff)) 42%, transparent),
         0 0 0 1px color-mix(in oklab, var(--sv-accent, var(--sv-primary, #5a7fff)) 55%, transparent);*/
@@ -934,7 +934,7 @@ import{n as e}from"./rolldown-runtime-C0FnF6B9.js";import{Et as t,Ft as n,J as r
     border-radius: 999px;
     background: color-mix(in oklab, var(--sv-surface-2, light-dark(#ffffff, #171c24)) 90%, transparent);
     color: var(--sv-fg, var(--color-on-surface));
-    color: contrast-color(var(--sv-surface-2, var(--color-surface)));
+    color: --u2-contrast-color(var(--sv-surface-2, var(--color-surface)));
     font-size: 0.8125rem;
     font-weight: 500;
     cursor: pointer;
@@ -948,7 +948,7 @@ import{n as e}from"./rolldown-runtime-C0FnF6B9.js";import{Et as t,Ft as n,J as r
   .view-settings .btn.primary {
     background: var(--sv-accent, var(--sv-primary, #5a7fff));
     color: var(--sv-on-primary);
-    color: contrast-color(var(--sv-accent, var(--sv-primary, #5a7fff)));
+    color: --u2-contrast-color(var(--sv-accent, var(--sv-primary, #5a7fff)));
     /*box-shadow:
         0 2px 16px color-mix(in oklab, var(--sv-accent, var(--sv-primary, #5a7fff)) 40%, transparent),
         0 0 0 1px color-mix(in oklab, var(--sv-accent, var(--sv-primary, #5a7fff)) 55%, transparent);*/
@@ -1158,13 +1158,13 @@ import{n as e}from"./rolldown-runtime-C0FnF6B9.js";import{Et as t,Ft as n,J as r
     cursor: pointer;
     max-inline-size: stretch;
     color: var(--sv-fg, light-dark(#12151a, #e8edf2));
-    color: contrast-color(var(--sv-surface-2, var(--color-surface)));
+    color: --u2-contrast-color(var(--sv-surface-2, var(--color-surface)));
   }
   .view-settings .view-settings__btn--primary {
     background: var(--sv-accent, var(--sv-primary, #5a7fff));
     border-color: color-mix(in oklab, var(--sv-accent, var(--sv-primary, #5a7fff)) 35%, transparent);
     color: var(--sv-on-primary);
-    color: contrast-color(var(--sv-accent, var(--sv-primary, #5a7fff)));
+    color: --u2-contrast-color(var(--sv-accent, var(--sv-primary, #5a7fff)));
   }
   .view-settings .view-settings__btn--primary:hover {
     filter: brightness(1.1);

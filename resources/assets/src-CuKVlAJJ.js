@@ -38,7 +38,7 @@ import{n as e}from"./rolldown-runtime-C0FnF6B9.js";import{At as t,Et as n,J as r
     padding: 1.5rem;
     background-color: var(--vh-bg, light-dark(#eef1f6, #0f1318));
     color: var(--vh-fg, light-dark(#12151a, #e8edf2));
-    color: contrast-color(var(--vh-bg, light-dark(#eef1f6, #0f1318)));
+    color: --u2-contrast-color(var(--vh-bg, light-dark(#eef1f6, #0f1318)));
     box-sizing: border-box;
     pointer-events: auto;
     position: relative;
@@ -69,7 +69,7 @@ import{n as e}from"./rolldown-runtime-C0FnF6B9.js";import{At as t,Et as n,J as r
     border: 1px solid color-mix(in oklab, var(--vh-danger, #d32f2f) 45%, transparent);
     border-radius: 6px;
     background-color: color-mix(in oklab, var(--vh-danger, #d32f2f) 12%, var(--vh-bg, light-dark(#eef1f6, #0f1318)));
-    color: contrast-color(color-mix(in oklab, var(--vh-danger, #d32f2f) 12%, var(--vh-bg, light-dark(#eef1f6, #0f1318))));
+    color: --u2-contrast-color(color-mix(in oklab, var(--vh-danger, #d32f2f) 12%, var(--vh-bg, light-dark(#eef1f6, #0f1318))));
     color: light-dark(#b71c1c, #ff8a80);
     font-size: 0.8125rem;
     font-weight: 600;
@@ -79,7 +79,7 @@ import{n as e}from"./rolldown-runtime-C0FnF6B9.js";import{At as t,Et as n,J as r
   .view-history__clear-btn:hover {
     background-color: color-mix(in oklab, var(--vh-danger, #d32f2f) 22%, var(--vh-bg, light-dark(#eef1f6, #0f1318)));
     border-color: var(--vh-danger, #d32f2f);
-    color: contrast-color(color-mix(in oklab, var(--vh-danger, #d32f2f) 22%, var(--vh-bg, light-dark(#eef1f6, #0f1318))));
+    color: --u2-contrast-color(color-mix(in oklab, var(--vh-danger, #d32f2f) 22%, var(--vh-bg, light-dark(#eef1f6, #0f1318))));
   }
   .view-history__list {
     flex: 1;
@@ -114,7 +114,7 @@ import{n as e}from"./rolldown-runtime-C0FnF6B9.js";import{At as t,Et as n,J as r
     border-inline-start: 3px solid var(--vh-primary, #007acc);
     box-shadow: var(--vh-elev);
     color: var(--vh-fg, light-dark(#12151a, #e8edf2));
-    color: contrast-color(var(--vh-item-bg, light-dark(#e0e5ee, #0a0d12)));
+    color: --u2-contrast-color(var(--vh-item-bg, light-dark(#e0e5ee, #0a0d12)));
     transition: opacity 0.2s ease, border-color 0.15s ease;
     pointer-events: auto;
   }
@@ -263,7 +263,7 @@ import{n as e}from"./rolldown-runtime-C0FnF6B9.js";import{At as t,Et as n,J as r
     border: 1px solid color-mix(in oklab, var(--vh-primary, #007acc) 40%, transparent);
     border-radius: 6px;
     background-color: color-mix(in oklab, var(--vh-primary, #007acc) 14%, var(--vh-item-bg, light-dark(#e0e5ee, #0a0d12)));
-    color: contrast-color(color-mix(in oklab, var(--vh-primary, #007acc) 14%, var(--vh-item-bg, light-dark(#e0e5ee, #0a0d12))));
+    color: --u2-contrast-color(color-mix(in oklab, var(--vh-primary, #007acc) 14%, var(--vh-item-bg, light-dark(#e0e5ee, #0a0d12))));
     color: light-dark(#0b5f8a, #7ec8f0);
     font-size: 0.8125rem;
     font-weight: 600;
@@ -273,7 +273,7 @@ import{n as e}from"./rolldown-runtime-C0FnF6B9.js";import{At as t,Et as n,J as r
   .view-history__action-btn:hover {
     background-color: color-mix(in oklab, var(--vh-primary, #007acc) 24%, var(--vh-item-bg, light-dark(#e0e5ee, #0a0d12)));
     border-color: color-mix(in oklab, var(--vh-primary, #007acc) 60%, transparent);
-    color: contrast-color(color-mix(in oklab, var(--vh-primary, #007acc) 24%, var(--vh-item-bg, light-dark(#e0e5ee, #0a0d12))));
+    color: --u2-contrast-color(color-mix(in oklab, var(--vh-primary, #007acc) 24%, var(--vh-item-bg, light-dark(#e0e5ee, #0a0d12))));
   }
   .view-history__action-btn:disabled {
     opacity: 0.55;
@@ -283,19 +283,19 @@ import{n as e}from"./rolldown-runtime-C0FnF6B9.js";import{At as t,Et as n,J as r
     background-color: var(--vh-primary, #007acc);
     border-color: var(--vh-primary, #007acc);
     color: var(--vh-on-primary, #ffffff);
-    color: contrast-color(var(--vh-primary, #007acc));
+    color: --u2-contrast-color(var(--vh-primary, #007acc));
   }
   .view-history__action-btn[data-action=remove], .view-history__action-btn[data-action=decline], .view-history__action-btn[data-action=cancel] {
     background-color: color-mix(in oklab, var(--vh-danger, #d32f2f) 14%, var(--vh-item-bg, light-dark(#e0e5ee, #0a0d12)));
     border-color: color-mix(in oklab, var(--vh-danger, #d32f2f) 45%, transparent);
     color: light-dark(#b71c1c, #ff8a80);
-    color: contrast-color(color-mix(in oklab, var(--vh-danger, #d32f2f) 14%, var(--vh-item-bg, light-dark(#e0e5ee, #0a0d12))));
+    color: --u2-contrast-color(color-mix(in oklab, var(--vh-danger, #d32f2f) 14%, var(--vh-item-bg, light-dark(#e0e5ee, #0a0d12))));
   }
   .view-history__action-btn[data-action=dismiss] {
     background-color: color-mix(in oklab, var(--vh-fg, light-dark(#12151a, #e8edf2)) 8%, var(--vh-item-bg, light-dark(#e0e5ee, #0a0d12)));
     border-color: color-mix(in oklab, var(--vh-fg, light-dark(#12151a, #e8edf2)) 18%, transparent);
     color: var(--vh-fg, light-dark(#12151a, #e8edf2));
-    color: contrast-color(color-mix(in oklab, var(--vh-fg, light-dark(#12151a, #e8edf2)) 8%, var(--vh-item-bg, light-dark(#e0e5ee, #0a0d12))));
+    color: --u2-contrast-color(color-mix(in oklab, var(--vh-fg, light-dark(#12151a, #e8edf2)) 8%, var(--vh-item-bg, light-dark(#e0e5ee, #0a0d12))));
   }
   .view-history__item.is-muted .view-history__action-btn,
   .view-history__item[data-status=expired] .view-history__action-btn,

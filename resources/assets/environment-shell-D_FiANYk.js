@@ -657,7 +657,7 @@ import{n as e}from"./rolldown-runtime-C0FnF6B9.js";import{Ht as t,Ut as n,dt as 
     --view-code-bg: var(--color-surface-container-low);
     background-color: var(--view-bg);
     color: var(--view-fg);
-    color: contrast-color(var(--view-bg));
+    color: --u2-contrast-color(var(--view-bg));
   }
   html[data-theme=light] {
     /* App Menu tiles sit on chrome — keep theme ink. Speed-dial glyphs use wallpaper contrast below. */
@@ -680,7 +680,7 @@ import{n as e}from"./rolldown-runtime-C0FnF6B9.js";import{Ht as t,Ut as n,dt as 
     --view-code-bg: var(--color-surface-container);
     background-color: var(--view-bg);
     color: var(--view-fg);
-    color: contrast-color(var(--view-bg));
+    color: --u2-contrast-color(var(--view-bg));
   }
   html[data-theme=dark] .env-shell-root .env-shell-app-menu__tile-icon .ui-ws-item-icon-mask,
   html[data-theme=dark] .env-shell-root .env-shell-app-menu__drag-ghost-icon .ui-ws-item-icon-mask {
@@ -1088,7 +1088,7 @@ import{n as e}from"./rolldown-runtime-C0FnF6B9.js";import{Ht as t,Ut as n,dt as 
   .env-ui-statusbar__clock:hover,
   .env-ui-statusbar__clock:focus-visible {
     background: color-mix(in oklch, currentColor 12%, transparent);
-    color: contrast-color(inherit(background-color));
+    color: --u2-contrast-color(inherit(background-color));
     outline: none;
   }
   .env-device-tray--footer {
@@ -1099,7 +1099,7 @@ import{n as e}from"./rolldown-runtime-C0FnF6B9.js";import{Ht as t,Ut as n,dt as 
   .env-device-tray--footer:hover,
   .env-device-tray--footer:focus-visible {
     background: color-mix(in oklch, currentColor 12%, transparent);
-    color: contrast-color(inherit(background-color));
+    color: --u2-contrast-color(inherit(background-color));
     outline: none;
   }
   .env-status-bar__tray {
@@ -1118,7 +1118,7 @@ import{n as e}from"./rolldown-runtime-C0FnF6B9.js";import{Ht as t,Ut as n,dt as 
     border: 1px solid color-mix(in oklch, var(--env-status-fg, var(--wf-md-on-surface, white)) 18%, transparent);
     line-height: 1;
     color: inherit;
-    color: contrast-color(inherit(background-color));
+    color: --u2-contrast-color(inherit(background-color));
     font-variant-numeric: tabular-nums;
   }
   .env-status-bar__chip span {
@@ -1264,7 +1264,7 @@ import{n as e}from"./rolldown-runtime-C0FnF6B9.js";import{Ht as t,Ut as n,dt as 
     gap: 0px !important;
     padding: 0px 0px 0px 0px !important;
     font: 12px ui-sans-serif, system-ui, sans-serif;
-    /* WHY: contrast-color(dark variant) painted white glyphs on the light dock. */
+    /* WHY: --u2-contrast-color(dark variant) painted white glyphs on the light dock. */
     color: var(--color-on-surface, var(--wf-md-on-surface-variant, #1c1c1e));
     pointer-events: none;
   }
@@ -1651,13 +1651,13 @@ import{n as e}from"./rolldown-runtime-C0FnF6B9.js";import{Ht as t,Ut as n,dt as 
   .env-shell-chrome:not([data-desktop]) .env-shell-taskbar ui-task[data-env-home]:hover,
   .env-shell-chrome:not([data-desktop]) .env-shell-taskbar ui-task[data-env-home]:active {
     background: color-mix(in oklch, #fff 10%, transparent);
-    color: contrast-color(inherit(background-color));
+    color: --u2-contrast-color(inherit(background-color));
   }
   .env-shell-chrome:not([data-desktop]) .env-shell-taskbar ui-task[data-env-home][data-env-active=true],
   .env-shell-chrome:not([data-desktop]) .env-shell-taskbar ui-task[data-env-home][data-active],
   .env-shell-chrome:not([data-desktop]) .env-shell-taskbar ui-task[data-env-home][data-focus] {
     background: color-mix(in oklch, #fff 8%, transparent);
-    color: contrast-color(inherit(background-color));
+    color: --u2-contrast-color(inherit(background-color));
     /*box-shadow: inset 0 -2px 0 #60cdff;*/
   }
   /*
@@ -1684,8 +1684,8 @@ import{n as e}from"./rolldown-runtime-C0FnF6B9.js";import{Ht as t,Ut as n,dt as 
     padding: 0.35rem;
     border-radius: 0.85rem;
     background: var(--navbar-switcher-background);
-    color: contrast-color(var(--navbar-switcher-background));
-    --icon-color: contrast-color(var(--navbar-switcher-background));
+    color: --u2-contrast-color(var(--navbar-switcher-background));
+    --icon-color: --u2-contrast-color(var(--navbar-switcher-background));
     border: 1px solid light-dark(color-mix(in oklch, #fff 12%, transparent), color-mix(in oklch, #1c1c1e 12%, transparent));
     box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
     backdrop-filter: blur(18px);

@@ -172,7 +172,7 @@ import{n as e}from"./rolldown-runtime-C0FnF6B9.js";import{a as t,c as n,o as r,s
     border: none;
     background: var(--sv-surface-2, var(--sv-surface-2, var(--color-surface-container)));
     color: var(--sv-fg, var(--color-on-surface));
-    color: contrast-color(var(--sv-surface-2, var(--sv-surface-2, var(--color-surface-container))));
+    color: --u2-contrast-color(var(--sv-surface-2, var(--sv-surface-2, var(--color-surface-container))));
     border-radius: 999px;
     padding: 0.5rem 1.125rem;
     min-block-size: 2.5rem;
@@ -186,7 +186,7 @@ import{n as e}from"./rolldown-runtime-C0FnF6B9.js";import{a as t,c as n,o as r,s
   }
   .cw-network-actions button.primary {
     background: var(--sv-accent, var(--sv-primary, var(--color-primary, #5a9ec8)));
-    color: contrast-color(var(--sv-accent, var(--sv-primary, #5a9ec8)));
+    color: --u2-contrast-color(var(--sv-accent, var(--sv-primary, #5a9ec8)));
   }
   .cw-network-actions button.primary:hover {
     filter: brightness(1.1);

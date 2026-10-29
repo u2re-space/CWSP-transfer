@@ -31,7 +31,7 @@ import{n as e}from"./rolldown-runtime-C0FnF6B9.js";import{$ as t,A as n,At as r,
     padding: 0.9rem 0.9rem 0.75rem;
     border-radius: 14px;
     background: var(--cal-surface);
-    color: contrast-color(var(--cal-surface));
+    color: --u2-contrast-color(var(--cal-surface));
     border: 1px solid var(--cal-outline);
     box-shadow: 0 18px 44px -18px color-mix(in oklab, #000 55%, transparent), 0 2px 6px -2px color-mix(in oklab, #000 35%, transparent);
     /* NOTE: no backdrop-filter — breaks phosphor duotone icon rendering elsewhere in chrome. */
@@ -84,11 +84,11 @@ import{n as e}from"./rolldown-runtime-C0FnF6B9.js";import{$ as t,A as n,At as r,
   }
   .ui-cal-flyout__nav-btn:hover {
     background: var(--cal-hover);
-    color: contrast-color(var(--cal-hover));
+    color: --u2-contrast-color(var(--cal-hover));
   }
   .ui-cal-flyout__nav-btn:active {
     background: color-mix(in oklab, var(--cal-hover) 160%, transparent);
-    color: contrast-color(color-mix(in oklab, var(--cal-hover) 160%, transparent));
+    color: --u2-contrast-color(color-mix(in oklab, var(--cal-hover) 160%, transparent));
   }
   .ui-cal-flyout__nav-btn:focus-visible {
     outline: 2px solid var(--cal-base-color);
@@ -149,7 +149,7 @@ import{n as e}from"./rolldown-runtime-C0FnF6B9.js";import{$ as t,A as n,At as r,
   }
   .ui-cal-flyout__day:hover {
     background: var(--cal-hover);
-    color: contrast-color(var(--cal-hover));
+    color: --u2-contrast-color(var(--cal-hover));
   }
   .ui-cal-flyout__day:focus-visible {
     outline: 2px solid var(--cal-base-color);
@@ -185,7 +185,7 @@ import{n as e}from"./rolldown-runtime-C0FnF6B9.js";import{$ as t,A as n,At as r,
  * Filename: QuickSettings.scss
  * FullPath: modules/projects/fl.ui/src/ui/navigation/settings/QuickSettings.scss
  * Change date and time: 20.00.00_03.09.2026
- * Reason for changes: Drop contrast-color()/inherit() — Capacitor WebView drops the rest of the sheet.
+ * Reason for changes: Drop --u2-contrast-color()/inherit() — Capacitor WebView drops the rest of the sheet.
  * FIND:chrome-rail
  */
 /* Unlayered \`:host\` rules beat \`ux-preload\`'s layered \`:host{display:none}\` default. */
@@ -247,7 +247,7 @@ import{n as e}from"./rolldown-runtime-C0FnF6B9.js";import{$ as t,A as n,At as r,
     border-radius: 14px;
     border: 1px solid var(--qs-outline);
     background: var(--qs-surface);
-    /* WHY: contrast-color()/inherit() need Chrome flags; replaceSync then drops later rules (sliders, footer). */
+    /* WHY: --u2-contrast-color()/inherit() need Chrome flags; replaceSync then drops later rules (sliders, footer). */
     color: var(--color-on-surface, var(--qs-on-surface));
     /* INVARIANT: no backdrop-filter — Win11-like solid panel per spec, keeps perf on low-end devices. */
     box-shadow: 0 20px 48px -20px rgba(0, 0, 0, 0.4), 0 2px 8px -2px rgba(0, 0, 0, 0.25);
@@ -612,7 +612,7 @@ import{n as e}from"./rolldown-runtime-C0FnF6B9.js";import{$ as t,A as n,At as r,
   .env-ui-statusbar__clock:hover,
   .env-ui-statusbar__clock:focus-visible {
     background: color-mix(in oklch, currentColor 12%, transparent);
-    color: contrast-color(inherit(background-color));
+    color: --u2-contrast-color(inherit(background-color));
     outline: none;
   }
   .env-device-tray--footer {
@@ -623,7 +623,7 @@ import{n as e}from"./rolldown-runtime-C0FnF6B9.js";import{$ as t,A as n,At as r,
   .env-device-tray--footer:hover,
   .env-device-tray--footer:focus-visible {
     background: color-mix(in oklch, currentColor 12%, transparent);
-    color: contrast-color(inherit(background-color));
+    color: --u2-contrast-color(inherit(background-color));
     outline: none;
   }
   .env-status-bar__tray {
@@ -642,7 +642,7 @@ import{n as e}from"./rolldown-runtime-C0FnF6B9.js";import{$ as t,A as n,At as r,
     border: 1px solid color-mix(in oklch, var(--env-status-fg, var(--wf-md-on-surface, white)) 18%, transparent);
     line-height: 1;
     color: inherit;
-    color: contrast-color(inherit(background-color));
+    color: --u2-contrast-color(inherit(background-color));
     font-variant-numeric: tabular-nums;
   }
   .env-status-bar__chip span {
@@ -2203,7 +2203,7 @@ import{n as e}from"./rolldown-runtime-C0FnF6B9.js";import{$ as t,A as n,At as r,
     gap: 0px !important;
     padding: 0px 0px 0px 0px !important;
     font: 12px ui-sans-serif, system-ui, sans-serif;
-    /* WHY: contrast-color(dark variant) painted white glyphs on the light dock. */
+    /* WHY: --u2-contrast-color(dark variant) painted white glyphs on the light dock. */
     color: var(--color-on-surface, var(--wf-md-on-surface-variant, #1c1c1e));
     pointer-events: none;
   }
@@ -2590,13 +2590,13 @@ import{n as e}from"./rolldown-runtime-C0FnF6B9.js";import{$ as t,A as n,At as r,
   .env-shell-chrome:not([data-desktop]) .env-shell-taskbar ui-task[data-env-home]:hover,
   .env-shell-chrome:not([data-desktop]) .env-shell-taskbar ui-task[data-env-home]:active {
     background: color-mix(in oklch, #fff 10%, transparent);
-    color: contrast-color(inherit(background-color));
+    color: --u2-contrast-color(inherit(background-color));
   }
   .env-shell-chrome:not([data-desktop]) .env-shell-taskbar ui-task[data-env-home][data-env-active=true],
   .env-shell-chrome:not([data-desktop]) .env-shell-taskbar ui-task[data-env-home][data-active],
   .env-shell-chrome:not([data-desktop]) .env-shell-taskbar ui-task[data-env-home][data-focus] {
     background: color-mix(in oklch, #fff 8%, transparent);
-    color: contrast-color(inherit(background-color));
+    color: --u2-contrast-color(inherit(background-color));
     /*box-shadow: inset 0 -2px 0 #60cdff;*/
   }
   /*
@@ -5914,7 +5914,7 @@ dialog.ui-modal-dialog::backdrop {
 :host(ui-task:hover) {
   --background-tone-shift: 0.1;
   background-color: --c2-surface(var(--background-tone-shift, 0), var(--current));
-  color: contrast-color(var(--background-tone-shift, 0), var(--current));
+  color: --u2-contrast-color(var(--background-tone-shift, 0), var(--current));
 }
 
 :host(ui-task[data-focus]) {
@@ -5932,23 +5932,23 @@ dialog.ui-modal-dialog::backdrop {
         `}},L([C({source:`attr`})],$s.prototype,`title`,void 0),L([C({source:`attr`})],$s.prototype,`icon`,void 0),$s=L([o(`ui-task`)],$s)})))()}var tc;function nc(){return(nc=e((()=>{tc=`ui-taskbar[data-type=desktop] > ui-task[data-focus] {
   background: --c2-surface(0, var(--current));
   color: --c2-on-surface(0, var(--current));
-  color: contrast-color(var(--c2-surface(0, var(--current))));
+  color: --u2-contrast-color(var(--c2-surface(0, var(--current))));
 }
 
 :host(ui-taskbar[data-type=desktop]) ::slotted(ui-task[data-focus]) {
   background: --c2-surface(0, var(--current));
   color: --c2-on-surface(0, var(--current));
-  color: contrast-color(var(--c2-surface(0, var(--current))));
+  color: --u2-contrast-color(var(--c2-surface(0, var(--current))));
 }`})))()}function rc(){return(rc=e((()=>{b(),u(),nc(),f(tc)})))()}var ic;function ac(){return(ac=e((()=>{ic=`ui-taskbar[data-type=mobile] > ui-task[data-focus] {
   background: --c2-surface(0, var(--current));
   color: --c2-on-surface(0, var(--current));
-  color: contrast-color(var(--c2-surface(0, var(--current))));
+  color: --u2-contrast-color(var(--c2-surface(0, var(--current))));
 }
 
 :host(ui-taskbar[data-type=mobile]) ::slotted(ui-task[data-focus]) {
   background: --c2-surface(0, var(--current));
   color: --c2-on-surface(0, var(--current));
-  color: contrast-color(var(--c2-surface(0, var(--current))));
+  color: --u2-contrast-color(var(--c2-surface(0, var(--current))));
 }`})))()}function oc(){return(oc=e((()=>{b(),u(),ac(),f(ic)})))()}function sc(){try{return globalThis.navigator?.windowControlsOverlay??null}catch{return null}}function cc(){if(Z)return Z;if(typeof globalThis.matchMedia!=`function`)return`unknown`;try{if(globalThis.matchMedia(`(display-mode: window-controls-overlay)`).matches)return Z=`window-controls-overlay`;if(globalThis.matchMedia(`(display-mode: fullscreen)`).matches)return Z=`fullscreen`;if(globalThis.matchMedia(`(display-mode: standalone)`).matches)return Z=`standalone`;if(globalThis.matchMedia(`(display-mode: minimal-ui)`).matches)return Z=`minimal-ui`;if(globalThis.matchMedia(`(display-mode: browser)`).matches)return Z=`browser`}catch{}return Z=`unknown`}function lc(e){if(!e?.visible||typeof e.getTitlebarAreaRect!=`function`)return null;try{let t=e.getTitlebarAreaRect();return t?{x:t.x,y:t.y,width:t.width,height:t.height}:null}catch{return null}}function uc(e){let t=sc(),n=!!t?.visible,r=cc(),i=n||r===`standalone`||r===`fullscreen`||r===`window-controls-overlay`||r===`minimal-ui`,a=`off`;return e&&(a=n?`wco`:i?`standalone`:`fallback`),{requested:e,wcoVisible:n,displayMode:r,titlebarRect:lc(t),isStandaloneLike:i,surface:a}}function dc(e){let t=()=>{Z=null,e.onChange(uc(e.getRequested()))},n=[];if(typeof globalThis.matchMedia==`function`)for(let e of[`(display-mode: window-controls-overlay)`,`(display-mode: standalone)`,`(display-mode: fullscreen)`,`(display-mode: minimal-ui)`,`(display-mode: browser)`])try{n.push(globalThis.matchMedia(e))}catch{}let r=()=>t();for(let e of n)try{e.addEventListener?.(`change`,r)}catch{try{e.addListener?.(r)}catch{}}let i=sc(),a=()=>t();try{i?.addEventListener?.(`geometrychange`,a)}catch{}return queueMicrotask(t),()=>{for(let e of n)try{e.removeEventListener?.(`change`,r)}catch{try{e.removeListener?.(r)}catch{}}try{i?.removeEventListener?.(`geometrychange`,a)}catch{}}}var Z;function fc(){return(fc=e((()=>{Z=null})))()}var pc,mc,hc,gc,_c,vc,yc,bc,xc,Sc,Cc,Q,wc,Tc,Ec,Dc,Oc,kc,$,Ac,jc,Mc,Nc,Pc,Fc,Ic,Lc,Rc,zc,Bc;function Vc(){return(Vc=e((()=>{pc=null,mc=null,hc=null,gc=null,_c=null,vc=null,yc=null,bc=0,xc=null,Sc=`#cbb8a4`,Cc=`__CWSP_NATIVE_THEME_COLOR_OWNED__`,Q=e=>{let t=String(e||``).trim().toLowerCase();if(!t)return!1;if(t===`#007acc`||t===`#007accff`||t===`#36c`||t===`#3366cc`)return!0;let n=t.match(/^rgba?\(\s*([\d.]+)\s*[, ]\s*([\d.]+)\s*[, ]\s*([\d.]+)/i);if(n&&(t?.startsWith?.(`#`)||t?.startsWith?.(`rgb`))){let e=Math.round(Number(n[1])),t=Math.round(Number(n[2])),r=Math.round(Number(n[3]));if(e<=20&&t>=100&&t<=140&&r>=180&&r<=220)return!0}return!1},wc=()=>{try{return!!globalThis?.[Cc]}catch{return!1}},Tc=e=>{_c=e;try{globalThis[Cc]=!!e}catch{}},Ec=e=>!e||!e.isConnected||e.hasAttribute(`minimized`)?!1:e.hasAttribute(`native-mode`)?!0:e.hasAttribute(`maximized`)||e.hasAttribute(`data-desk-max`)||e.hasAttribute(`data-mobile-max`)||e.hasAttribute(`data-native-active`),Dc=()=>{if(typeof document>`u`)return null;if(_c?.isConnected&&Ec(_c))return _c;let e=Array.from(document.querySelectorAll(`ui-window[native-mode]:not([minimized])`));if(e.length)return e[e.length-1];let t=Array.from(document.querySelectorAll(`ui-window[data-desk-max]:not([minimized]), ui-window[maximized]:not([minimized]), ui-window[data-mobile-max]:not([minimized])`));for(let e=t.length-1;e>=0;e--){let n=t[e];if(Ec(n))return n}return null},Oc=()=>{mc||typeof MutationObserver>`u`||typeof document>`u`||(mc=new MutationObserver(()=>{yc=null;let e=Dc();e?.isConnected?zc(e):Fc()}),mc.observe(document.documentElement,{attributes:!0,attributeFilter:[`data-theme`,`class`,`style`,`color-scheme`]}))},kc=e=>{hc||typeof MutationObserver>`u`||(hc=new MutationObserver(()=>{if(!wc())return;let t=(e.getAttribute(`content`)||``).toLowerCase(),n=(vc||``).toLowerCase();if(n&&t===n&&!Q(t))return;let r=Dc();r?zc(r):Q(t)&&Pc(Sc,!0)}),hc.observe(e,{attributes:!0,attributeFilter:[`content`]}))},$=e=>{let t=String(e||``).trim();if(!t||t===`transparent`||t===`rgba(0, 0, 0, 0)`)return null;let n=t.match(/^#([0-9a-f]{3}|[0-9a-f]{6}|[0-9a-f]{8})$/i);if(n){let e=n[1];e.length===3?e=e[0]+e[0]+e[1]+e[1]+e[2]+e[2]:e.length===8&&(e=e.slice(0,6));let t=`#${e.toLowerCase()}`;return Q(t)?null:t}let r=t.match(/^rgba?\(\s*([\d.]+)\s*,\s*([\d.]+)\s*,\s*([\d.]+)(?:\s*,\s*([\d.]+))?\s*\)$/i);if(r){let e=r[4]===void 0?1:Number(r[4]);if(!Number.isFinite(e)||e<.5)return null;let t=`#${[Math.max(0,Math.min(255,Math.round(Number(r[1])))),Math.max(0,Math.min(255,Math.round(Number(r[2])))),Math.max(0,Math.min(255,Math.round(Number(r[3]))))].map(e=>e.toString(16).padStart(2,`0`)).join(``)}`;return Q(t)?null:t}let i=t.match(/^rgba?\(\s*([\d.]+)\s+([\d.]+)\s+([\d.]+)(?:\s*\/\s*([\d.]+%?))?\s*\)$/i);if(i){let e=1;if(i[4]!==void 0&&(e=String(i[4]).endsWith(`%`)?Number(i[4])/100:Number(i[4])),!Number.isFinite(e)||e<.5)return null;let t=`#${[Math.max(0,Math.min(255,Math.round(Number(i[1])))),Math.max(0,Math.min(255,Math.round(Number(i[2])))),Math.max(0,Math.min(255,Math.round(Number(i[3]))))].map(e=>e.toString(16).padStart(2,`0`)).join(``)}`;return Q(t)?null:t}try{if(typeof document>`u`)return null;gc||(gc=document.createElement(`canvas`),gc.width=1,gc.height=1);let e=gc.getContext(`2d`,{willReadFrequently:!0});if(!e)return null;e.fillStyle=`#000000`,e.fillStyle=t;let n=String(e.fillStyle||``);if(n.startsWith(`#`)&&n.length>=7){let e=n.slice(0,7).toLowerCase();return Q(e)?null:e}return $(n)}catch{return null}},Ac=()=>{if(typeof document>`u`)return null;let e=document.querySelector(`meta[data-theme-color]`)||document.querySelector(`meta[name="theme-color"]`);e||(e=document.createElement(`meta`),e.setAttribute(`name`,`theme-color`),e.setAttribute(`data-theme-color`,``),document.head?.appendChild(e));try{let t=Array.from(document.querySelectorAll(`meta[name="theme-color"]`));for(let n of t)n!==e&&n.remove()}catch{}return kc(e),e},jc=(e,t)=>{try{let n=document.createElement(`div`);n.setAttribute(`data-theme-color-probe`,`true`),n.style.cssText=`position:fixed;left:-8px;top:-8px;inline-size:4px;block-size:4px;pointer-events:none;opacity:0;background:${t}`,e.appendChild(n);let r=$(getComputedStyle(n).backgroundColor);return n.remove(),r}catch{return null}},Mc=()=>{if(yc)return yc;try{let e=getComputedStyle(document.documentElement).getPropertyValue(`--color-surface-container`).trim();yc=$(e)||jc(document.documentElement,`var(--color-surface-container, Canvas)`)||Sc}catch{yc=Sc}return yc},Nc=e=>{let t=e.querySelector(`.env-ui-window__body`),n=t?.querySelector(`.settings-screen__top, .view-settings, .view-explorer, .cw-view-viewer-shell`)||t;if(n){let e=$(getComputedStyle(n).backgroundColor);if(e)return e}return Mc()},Pc=(e,t=!1)=>{let n=Ac();if(!n||!e)return;let r=e.toLowerCase();Q(r)&&(r=Sc);let i=(n.getAttribute(`content`)||``).toLowerCase();if((i!==r||t||Q(i))&&(n.setAttribute(`content`,r),n.setAttribute(`data-theme-color`,``),n.removeAttribute(`media`),vc=r,t||i!==r||Q(i)))try{let e=n.parentNode||document.head;e?.removeChild(n),e?.appendChild(n)}catch{}},Fc=()=>{if(typeof document>`u`||Dc())return;Tc(null),vc=null;let e=Ac();if(!e)return;let t=document.documentElement,n=getComputedStyle(t),r=document.body?getComputedStyle(document.body):null,i=$(n.getPropertyValue(`--color-surface-container`).trim())||$(n.getPropertyValue(`--color-surface`).trim())||$(n.getPropertyValue(`--ui-win-titlebar-bg`).trim())||(r?$(r.backgroundColor):null)||$(n.backgroundColor);i?Pc(i):Q(String(e.getAttribute(`content`)||``))&&Pc(Sc,!0),Oc()},Ic=e=>e.hasAttribute(`maximized`)||e.hasAttribute(`data-desk-max`)||e.hasAttribute(`data-mobile-max`)||e.hasAttribute(`data-native-active`),Lc=()=>{if(bc){if(typeof cancelIdleCallback==`function`)try{cancelIdleCallback(bc)}catch{clearTimeout(bc)}else clearTimeout(bc);bc=0,xc=null}},Rc=e=>{if(xc=e,bc)return;let t=()=>{bc=0;let e=xc;xc=null,e?.isConnected&&(e.hasAttribute(`minimized`)||(e.hasAttribute(`native-mode`)||Ic(e))&&(Pc(Nc(e)||Sc,!1),Oc()))};bc=typeof requestIdleCallback==`function`?requestIdleCallback(t,{timeout:120}):setTimeout(t,0)},zc=e=>{if(!e||typeof document>`u`||e.hasAttribute(`minimized`)||!e.hasAttribute(`native-mode`)&&!Ic(e)&&!Ec(e))return;let t=Ac();if(t){if(pc==null){let e=t.getAttribute(`content`)||``;pc=Q(e)?``:e}if(Tc(e),Q(String(t.getAttribute(`content`)||``))&&Pc(Sc,!1),vc&&!Q(vc)){Pc(vc,!1),Oc();return}Rc(e)}},Bc=e=>{if(typeof document>`u`||!document.querySelector(`meta[name="theme-color"]`))return;let t=Dc();if(t&&t!==e){zc(t);return}let n=Array.from(document.querySelectorAll(`ui-window[native-mode]:not([minimized]), ui-window[data-desk-max]:not([minimized]), ui-window[maximized]:not([minimized]), ui-window[data-mobile-max]:not([minimized])`)).filter(t=>t!==e&&Ec(t));if(n.length){zc(n[n.length-1]);return}Tc(null),vc=null,Lc(),pc!=null&&pc&&!Q(pc)?(Pc(pc,!0),pc=null):(pc=null,Fc())},typeof document<`u`&&queueMicrotask(()=>{try{Fc()}catch{}})})))()}var Hc;function Uc(){return(Uc=e((()=>{Hc=`/*
  * Filename: window.scss
  * FullPath: modules/projects/veela.css/src/scss/ui/components/window.scss
