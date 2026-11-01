@@ -2,12 +2,12 @@
   "ok": true,
   "sku": "process",
   "packageId": "space.u2re.process",
-  "versionCode": 76,
-  "versionName": "0.0.76",
+  "versionCode": 77,
+  "versionName": "0.0.77",
   "apk": "cwsp-process.apk",
   "apkUrl": "/releases/android/cwsp-process.apk",
-  "sha256": "ca9375ddbb5ec650d11f4db7fd0010add058caad10e377fb267340ed143c37dc",
+  "sha256": "11313d68952d8dd77a883b890eae0d5e06b40e405e3f8c4fa03501d06b4d9226",
   "signatureSha256": "288eb7c36447f0b4e15797ecd0a2a85ef800efaadaf07db13ee8a38f782fbad3",
-  "size": 13958924,
-  "builtAt": "2026-11-01T05:31:14.674Z"
+  "size": 13958992,
+  "builtAt": "2026-11-01T07:26:35.757Z"
 }

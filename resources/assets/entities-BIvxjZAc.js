@@ -1,1 +1,0 @@
-import"./Settings-BChPBBD0.js";import{n as e,t}from"./entities-BvN9_ipU.js";e();export{t as extractEntities};
